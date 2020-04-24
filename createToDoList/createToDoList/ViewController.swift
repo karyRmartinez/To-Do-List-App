@@ -12,21 +12,30 @@ class ToDoListViewController: UIViewController {
     
     var todos = [toDo]() {
         didSet {
-            tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+         
         }
     }
     
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: UIScreen.main.bounds)
-        tableView.backgroundColor = .lightGray
+        tableView.register(ToDoTableViewCell.self, forCellReuseIdentifier: "todocell")
+        tableView.backgroundColor = .white
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+       self.view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
         return tableView
     }()
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setTableViewConstraints()
-         self.view.addSubview(tableView)
+        
     }
     
     
@@ -43,14 +52,19 @@ class ToDoListViewController: UIViewController {
 
 }
 
-//extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return todos.count
-//    }
-//    
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        <#code#>
-//    }
-//    
-//    
-//}
+extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return todos.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "todocell", for: indexPath) as? ToDoTableViewCell else { return
+            UITableViewCell()  }
+        return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRow indexPath: IndexPath) -> CGFloat {
+         return 100
+     }
+     
+    
+}
