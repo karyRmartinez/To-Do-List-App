@@ -10,6 +10,11 @@ import UIKit
 
 class ToDoListViewController: UIViewController {
     
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: UIScreen.main.bounds)
+        tableView.backgroundColor = .lightGray
+        return tableView
+    }()
     
 
     override func viewDidLoad() {
