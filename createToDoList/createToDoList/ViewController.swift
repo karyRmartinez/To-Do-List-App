@@ -10,6 +10,12 @@ import UIKit
 
 class ToDoListViewController: UIViewController {
     
+    var todos = [toDo]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: UIScreen.main.bounds)
         tableView.backgroundColor = .lightGray
@@ -19,9 +25,32 @@ class ToDoListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        setTableViewConstraints()
+         self.view.addSubview(tableView)
     }
+    
+    
+    private func setTableViewConstraints() {
+         NSLayoutConstraint.activate([
+             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+         ])
+     }
+    
 
 
 }
 
+//extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return todos.count
+//    }
+//    
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        <#code#>
+//    }
+//    
+//    
+//}
