@@ -30,12 +30,28 @@ class ToDoListViewController: UIViewController {
         return tableView
     }()
     
+    lazy var createButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(navigateScreen))
+        return button
+        
+        }()
+        
 
+    @objc private func navigateScreen() {
+           self.navigationController?.pushViewController(CreateViewController(), animated: true)
+       }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setTableViewConstraints()
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "text.badge.plus"), style: .plain, target: self, action: #selector(createButtonPressed))
+
+        
+    }
+    @objc func createButtonPressed(){
+         self.navigationController?.pushViewController(CreateViewController(), animated: true)
+        //TODO: transition to a controller where you can create ToDos
     }
     
     
