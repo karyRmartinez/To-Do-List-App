@@ -14,6 +14,7 @@ class CreateViewController: UIViewController {
         let ToDoField = UITextField()
         ToDoField.translatesAutoresizingMaskIntoConstraints = false
         ToDoField.borderStyle = .bezel
+        ToDoField.placeholder = "Enter To Do..."
             ToDoField.backgroundColor = .white
         return ToDoField
     }()
@@ -27,13 +28,7 @@ class CreateViewController: UIViewController {
     
     @objc private func addButtonPressed() {
         
-//        let newtodo = toDosl(title: self.ListOfToDosTextField.text ??)
-//        do {
-//            try ToDoPersistenceHelper.manager.save(newToDo: toDosl)
-//            self.navigationController?.popViewController(animated: true)
-//        } catch {
-//            fatalError()
-//        }
+
            let item = toDosl(title: self.ListOfToDosTextField.text ?? "something gross")
             do {
                 try ToDoPersistenceHelper.manager.save(newToDo: item)

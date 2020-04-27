@@ -44,9 +44,24 @@ class ToDoListViewController: UIViewController {
     @objc private func navigateScreen() {
            self.navigationController?.pushViewController(CreateViewController(), animated: true)
        }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        do {
+            todos = try ToDoPersistenceHelper.manager.getPersistedToDos()
+        } catch {
+            print("didn't get items")
+        }
+    }
+    
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        tableView.delegate = self
+        tableView.dataSource = self
         setTableViewConstraints()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "text.badge.plus"), style: .plain, target: self, action: #selector(createButtonPressed))
@@ -68,9 +83,9 @@ class ToDoListViewController: UIViewController {
          ])
      }
     
-    override func viewWillAppear(_ animated: Bool) {
-        loadData()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        loadData()
+//    }
     
     func loadData(){
         do {
@@ -92,7 +107,9 @@ extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let toDo = todos[indexPath.row]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.SubtitleCell.rawValue) as? ToDoTableViewCell else {return UITableViewCell()}
-      cell.textLabel?.text = toDo.title
+        //cell.title.text = toDo.title
+        cell.titleLabel.text = toDo.title
+       
      
       return cell
 
@@ -102,6 +119,11 @@ extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRow indexPath: IndexPath) -> CGFloat {
          return 100
      }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+           return 2
+       }
+       
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
          switch section {
