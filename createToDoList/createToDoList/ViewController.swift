@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum CellIdentifier: String {
+    case SubtitleCell
+}
+
 class ToDoListViewController: UIViewController {
     
     var todos = [toDo]() {
@@ -81,6 +85,16 @@ extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRow indexPath: IndexPath) -> CGFloat {
          return 100
      }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+         switch section {
+         case 0: return "To Do List"
+         case 1: return "Completed"
+        
+         default: return "nothing"
+         }
+     }
+     
      
     
 }

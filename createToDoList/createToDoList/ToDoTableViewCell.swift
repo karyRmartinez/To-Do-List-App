@@ -29,6 +29,7 @@ class ToDoTableViewCell: UITableViewCell {
       override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
           super.init(style: style, reuseIdentifier: reuseIdentifier)
           setTitleConstraint()
+        self.initialize()
           
       }
       
@@ -37,7 +38,9 @@ class ToDoTableViewCell: UITableViewCell {
       }
     
     
-    
+    func initialize() {
+        
+    }
 //
 //    override func awakeFromNib() {
 //        super.awakeFromNib()
