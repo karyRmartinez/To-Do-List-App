@@ -18,7 +18,16 @@ class CreateViewController: UIViewController {
         return ToDoField
     }()
     
+    lazy var AddButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.add, for: .normal)
+        button.addTarget(self, action: #selector(addButtonPressed), for: .touchDown)
+        return button
+    }()
     
+    @objc func addButtonPressed() {
+        
+    }
     private func setTextFieldConstraints() {
         NSLayoutConstraint.activate([
             ListOfToDosTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -28,14 +37,27 @@ class CreateViewController: UIViewController {
         ])
     }
     
+    private func AddButtonConstraints() {
+        AddButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            AddButton.heightAnchor.constraint(equalToConstant: 80),
+            AddButton.widthAnchor.constraint(equalToConstant: 80),
+            AddButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            AddButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
+    }
+    
     private func addSubviews() {
         self.view.addSubview(ListOfToDosTextField)
+        self.view.addSubview(AddButton)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .white
         addSubviews()
         setTextFieldConstraints()
+        AddButtonConstraints()
 
         // Do any additional setup after loading the view.
     }
