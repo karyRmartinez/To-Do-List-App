@@ -14,7 +14,7 @@ enum CellIdentifier: String {
 
 class ToDoListViewController: UIViewController {
     
-    var todos = [toDo]() {
+    var todos = [toDosl]() {
         didSet {
             DispatchQueue.main.async {
                 self.tableView.reloadData()
@@ -68,6 +68,18 @@ class ToDoListViewController: UIViewController {
          ])
      }
     
+    override func viewWillAppear(_ animated: Bool) {
+        loadData()
+    }
+    
+    func loadData(){
+        do {
+          todos = try ToDoPersistenceHelper.manager.getPersistedToDos()
+        } catch {
+            print(error)
+        }
+    }
+    
 
 
 }
@@ -78,10 +90,15 @@ extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "todocell", for: indexPath) as? ToDoTableViewCell else { return
-            UITableViewCell()  }
-        return cell
+        let toDo = todos[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.SubtitleCell.rawValue) as? ToDoTableViewCell else {return UITableViewCell()}
+      cell.textLabel?.text = toDo.title
+     
+      return cell
+
     }
+    
+    
     func tableView(_ tableView: UITableView, heightForRow indexPath: IndexPath) -> CGFloat {
          return 100
      }

@@ -25,9 +25,25 @@ class CreateViewController: UIViewController {
         return button
     }()
     
-    @objc func addButtonPressed() {
+    @objc private func addButtonPressed() {
         
-    }
+//        let newtodo = toDosl(title: self.ListOfToDosTextField.text ??)
+//        do {
+//            try ToDoPersistenceHelper.manager.save(newToDo: toDosl)
+//            self.navigationController?.popViewController(animated: true)
+//        } catch {
+//            fatalError()
+//        }
+           let item = toDosl(title: self.ListOfToDosTextField.text ?? "something gross")
+            do {
+                try ToDoPersistenceHelper.manager.save(newToDo: item)
+                self.navigationController?.popViewController(animated: true)
+            } catch {
+                fatalError()
+            }
+        }
+        
+    
     private func setTextFieldConstraints() {
         NSLayoutConstraint.activate([
             ListOfToDosTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -65,4 +81,10 @@ class CreateViewController: UIViewController {
 
 
 
+}
+
+extension CreateViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
 }

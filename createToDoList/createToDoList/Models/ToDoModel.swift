@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct toDo: Codable {
+struct toDosl: Codable {
     let title: String
-    let completed: String
+  //  let completed: String
 }

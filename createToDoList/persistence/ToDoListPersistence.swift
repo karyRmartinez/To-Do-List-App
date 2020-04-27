@@ -10,13 +10,14 @@ import Foundation
 
 
 struct ToDoPersistenceHelper {
+    private static var list = [toDosl]()
     static let manager = ToDoPersistenceHelper()
     
-    func save(newToDo: toDo) throws {
+    func save(newToDo: toDosl) throws {
         try persistenceHelper.save(newElement: newToDo)
     }
     
-    func getPersistedToDos() throws -> [toDo] {
+    func getPersistedToDos() throws -> [toDosl] {
         return try persistenceHelper.getObjects()
     }
     
@@ -38,7 +39,7 @@ struct ToDoPersistenceHelper {
         return false
     }
     
-    private let persistenceHelper = PersistenceHelper<toDo>(fileName: "todos.plist")
+    private let persistenceHelper = PersistenceHelper<toDosl>(fileName: "todos.plist")
     
     private init() {}
 }
