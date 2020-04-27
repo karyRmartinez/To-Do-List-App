@@ -9,6 +9,14 @@
 import UIKit
 
 class CreateViewController: UIViewController {
+    
+    lazy var ListOfToDosTextField: UITextField = {
+        let ToDoField = UITextField()
+        ToDoField.translatesAutoresizingMaskIntoConstraints = false
+        ToDoField.borderStyle = .bezel
+            ToDoField.backgroundColor = .white
+        return ToDoField
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
