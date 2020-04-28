@@ -8,9 +8,9 @@
 
 import UIKit
 
-enum CellIdentifier: String {
-    case SubtitleCell
-}
+//enum CellIdentifier: String {
+//    case SubtitleCell
+//}
 
 class ToDoListViewController: UIViewController {
     
@@ -22,9 +22,19 @@ class ToDoListViewController: UIViewController {
          
         }
     }
+    var completedTodo = [CompletedtoDosl]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+ 
+    
     
     lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: UIScreen.main.bounds)
+       // let tableView = UITableView(frame: UIScreen.main.bounds)
+          let tableView = UITableView()
         tableView.register(ToDoTableViewCell.self, forCellReuseIdentifier: "todocell")
         tableView.backgroundColor = .white
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,6 +42,7 @@ class ToDoListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         return tableView
+
     }()
     
     lazy var createButton: UIBarButtonItem = {
@@ -51,17 +62,18 @@ class ToDoListViewController: UIViewController {
         } catch {
             print("didn't get items")
         }
+        
+        
+     
     }
     
-    
-    
-    
+  
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        tableView.delegate = self
-        tableView.dataSource = self
+     //  view.backgroundColor = .red
+       tableView.delegate = self
+      tableView.dataSource = self
         setTableViewConstraints()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "text.badge.plus"), style: .plain, target: self, action: #selector(createButtonPressed))
@@ -82,34 +94,33 @@ class ToDoListViewController: UIViewController {
              tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
          ])
      }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        loadData()
-//    }
-    
-    func loadData(){
-        do {
-          todos = try ToDoPersistenceHelper.manager.getPersistedToDos()
-        } catch {
-            print(error)
-        }
-    }
-    
-
 
 }
 
 extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return todos.count
+        switch section {
+        case 0: return todos.count
+        case 1: return completedTodo.count
+
+             default: return 0
+             }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let toDo = todos[indexPath.row]
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.SubtitleCell.rawValue) as? ToDoTableViewCell else {return UITableViewCell()}
-        //cell.title.text = toDo.title
-        cell.titleLabel.text = toDo.title
-       
+       // let toDo = todos[indexPath.row]
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "todocell") as? ToDoTableViewCell else {return UITableViewCell()}
+        switch indexPath.section {
+             case 0:
+                cell.titleLabel.text = todos[indexPath.row].title
+             case 1:
+           //     cell.titleLabel.text = completedTodo[indexPath.row].title
+              cell.titleLabel.text = ""
+             default:
+                 cell.titleLabel.text = ""
+             }
+
      
       return cell
 
@@ -121,7 +132,8 @@ extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
      }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-           return 2
+        return 2
+        
        }
        
     
@@ -129,7 +141,7 @@ extension ToDoListViewController: UITableViewDataSource, UITableViewDelegate {
          switch section {
          case 0: return "To Do List"
          case 1: return "Completed"
-        
+
          default: return "nothing"
          }
      }

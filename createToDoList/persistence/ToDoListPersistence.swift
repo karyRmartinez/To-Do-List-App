@@ -11,12 +11,14 @@ import Foundation
 
 struct ToDoPersistenceHelper {
     private static var list = [toDosl]()
+    private static var comlist = [CompletedtoDosl]()
+    
     static let manager = ToDoPersistenceHelper()
     
     func save(newToDo: toDosl) throws {
         try persistenceHelper.save(newElement: newToDo)
     }
-    
+  
     func getPersistedToDos() throws -> [toDosl] {
         return try persistenceHelper.getObjects()
     }
